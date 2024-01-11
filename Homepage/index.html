@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="script.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css" />
     <title>ROLL DICE WOO</title>
 </head>
@@ -14,6 +13,8 @@
         <div style="overflow-x:auto;">
             <table id="data">
                 <tr>
+                    <th>Number of Dice</th>
+                    <th>Rolls per Dice</th>
                     <th>Frequency</th>
                     <th>Mean</th>
                     <th>Median</th>
@@ -27,8 +28,19 @@
             </table>
         </div>
     </div>
-    <button onclick="location.href = '../Settings Page/settings.html'" class='button' id="settings">
-        <strong>Settings</strong>
-    </button>
+    <div class='right'>
+        <form action="javascript:submit()" id="settings">
+            <label for="numDice" id="numDiceText">Number of Dice:</label><br>
+            <select name="numDice" id="numDice">
+                <option value=1>1</option>
+                <option value=2>2</option>
+                <option value=3>3</option>
+            </select><br>
+            <label for="numRoll" id="numRollText">Number of Rolls per Dice: </label><br>
+            <input type="text" id="numRoll" name="numRoll"><br>
+            <input type="submit" id="submit" name="submit">
+        </form>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
