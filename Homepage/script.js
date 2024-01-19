@@ -1,7 +1,7 @@
 let numDice;
 let numRolls;
+let actualRolls = [];
 let result = [];
-let freq2;
 let freq3;
 
 function submit(){
@@ -12,19 +12,32 @@ function submit(){
 }
 
 function roll() {
-    for (let i=0; i < numDice * numRolls; i ++) {
-        result.push(Math.floor(Math.random() * 6 + 1));
+    actualRolls = [];
+    for (let i=0; i < numRolls; i ++) {
+        let array = [];
+        for (let i=0; i < numDice; i ++) {
+            array.push(Math.floor(Math.random() * 6 + 1));
+        }
+        if (numRolls > 1) {
+            actualRolls.push(array);
+        }else {
+            result = array;
+        }
     }
     calculate();
 }
 
 function calculate(){
-    let calculations = [mean(), median(), mode(), frequency(), freq2, freq3];
+    let calculations = [mean(), median(), mode(), frequency(), doubles(), freq3];
     updateTable(calculations);
 }
 
 function updateTable(array){
     let newRow = document.getElementById("data").insertRow(-1);
+    let number = newRow.insertCell();
+    number.innerHTML = numDice;
+    let numb = newRow.insertCell();
+    numb.innerHTML = numRolls;
     for (let item of array) {
         let thing = newRow.insertCell();
         thing.innerHTML = item;
@@ -53,39 +66,39 @@ function median(){
 }
 
 function mode () {
-    let numMode = 0;
-    let numOfMode = 0;
-    for (i = 0; i < result.length; i ++){
-        let arr = result.filter(modeHelper, numMode);
-        if (i === 0 || arr.length > numOfMode) {
-            numMode = result[i];
-            numOfMode = arr.length; 
+    let arr = removeDups(result);
+    let modeNum = [];
+    let modeCount = 0;
+    for (let num of arr) {
+        let count = 0;
+        for (let eachNum of result) {
+            if (num == eachNum) {
+                count ++;
+            }
+        }
+        if (count >= modeCount) {
+            if (count > modeCount){
+                modeNum = [num];
+            }else {
+                modeNum.push(num);
+            }
+            modeCount = count;
         }
     }
-    return numMode;
-}
-
-function modeHelper(num, mode){
-    return num === mode;
+    return modeNum;
 }
 
 function frequency() {
     let list = [];
-    for (i = 0; i < numDice * 6; i ++) {
-        list.push(numDice + i);
-    }
-    for (let num of removeDups(result)){
+    let arr = removeDups(result);
+    for (let num of arr) {
         let count = 0;
-        for (i = 0; i < result.length; i ++) {
-            if (result[i] == num) {
+        for (let eachNum of result) {
+            if (num == eachNum) {
                 count ++;
             }
         }
-        for (i = 0; i < list.length; i ++) {
-            if (list[i] == num) {
-                list[i] = [list[i], count];
-            }   
-        }
+        list.push([num, count]);
     }
     return list;
 }
@@ -97,3 +110,13 @@ function removeDups(array) {
     });
 }
 
+function doubles(){
+    let count = 0;
+    if (numDice == 2) {
+        for (let arr of actualRolls) {
+            if (arr[0] == arr[i]) {
+                count ++;
+            }
+        }
+    }
+}
