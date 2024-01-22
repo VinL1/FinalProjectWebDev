@@ -12,17 +12,18 @@ function submit(){
 }
 
 function roll() {
+    result = [];
     actualRolls = [];
     for (let i=0; i < numRolls; i ++) {
         let array = [];
         for (let i=0; i < numDice; i ++) {
             array.push(Math.floor(Math.random() * 6 + 1));
         }
-        if (numRolls > 1) {
+        if (numDice > 1) {
             actualRolls.push(array);
-        }else {
-            result = array;
         }
+        console.log(array);
+        result = result.concat(array);
     }
     calculate();
 }
@@ -98,9 +99,25 @@ function frequency() {
                 count ++;
             }
         }
-        list.push([num, count]);
+        list.push([num, count]);    
     }
-    return list;
+    
+    console.log(list);
+    let table = document.createElement("table");
+
+    let row = table.insertRow();
+    let cell = row.insertCell();
+    cell.textContent = "Number on Dice";
+    let cell2 = row.insertCell();
+    cell2.textContent = "Num of Appearances";
+    for (let  i = 0; i < list.length; i ++) {
+        let row = table.insertRow();
+        for (let j = 0; j < list[0].length; j ++) {
+            let cell = row.insertCell();
+            cell.textContent = list[i][j];
+        }
+    }
+    return table.outerHTML; 
 }
 
 function removeDups(array) {
@@ -114,7 +131,7 @@ function doubles(){
     let count = 0;
     if (numDice == 2) {
         for (let arr of actualRolls) {
-            if (arr[0] == arr[i]) {
+            if (arr[0] == arr[1]) {
                 count ++;
             }
         }
